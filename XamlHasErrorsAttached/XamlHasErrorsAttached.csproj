@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="HasErrorsAttached.cs" />
     <Compile Include="HasErrorsInitBehavior.cs" />
+    <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
