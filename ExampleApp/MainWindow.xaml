@@ -19,17 +19,32 @@
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="4"/>
         </Style>
+        <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBlock>
+                            (<Run Text="{Binding BindingInError.Target.Tag, Mode=OneWay}"/>)
+                            <Run Text="{Binding ErrorContent, Mode=OneWay}"/>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid Margin="4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              xamlErrorsExtension:HasErrorsAttached.HasErrors="False"
-              Background="#FFFFBFBF">
+              Background="#FFFFBFBF"
+              Tag="Grid1">
             <i:Interaction.Behaviors>
                 <xamlErrorsExtension:HasErrorsInitBehavior/>
             </i:Interaction.Behaviors>
@@ -37,18 +52,23 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0" Text="{Binding NumberThree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+            <TextBox Grid.Row="0"
+                     Tag="TextBox1"
+                     Text="{Binding NumberThree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
 
             <Button Grid.Row="1" IsEnabled="{Binding (xamlErrorsExtension:HasErrorsAttached.HasErrors), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Converter={StaticResource InverseBoolean}}">
                 <TextBlock Text="ok"/>
             </Button>
+
+            <ListBox Grid.Row="2" ItemsSource="{Binding (xamlErrorsExtension:HasErrorsAttached.ErrorsList), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
         </Grid>
 
         <Grid Grid.Row="1"
-              xamlErrorsExtension:HasErrorsAttached.HasErrors="False"
-              Background="#FFFBFFD0">
+              Background="#FFFBFFD0"
+              Tag="Grid2">
             <i:Interaction.Behaviors>
                 <xamlErrorsExtension:HasErrorsInitBehavior/>
             </i:Interaction.Behaviors>
@@ -59,15 +79,21 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0" Text="{Binding NumberOne, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+            <TextBox Grid.Row="0"
+                     Tag="TextBox2"
+                     Text="{Binding NumberOne, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
             <TextBlock Grid.Row="1" Text="{Binding NumberOne, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Row="2" Text="{Binding NumberTwo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+            <TextBox Grid.Row="2"
+                     Tag="TextBox3"
+                     Text="{Binding NumberTwo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
             <TextBlock Grid.Row="3" Text="{Binding NumberTwo, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Row="4" IsEnabled="{Binding (xamlErrorsExtension:HasErrorsAttached.HasErrors), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Converter={StaticResource InverseBoolean}}">
                 <TextBlock Text="ok"/>
             </Button>
+            <ListBox Grid.Row="5" ItemsSource="{Binding (xamlErrorsExtension:HasErrorsAttached.ErrorsList), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
         </Grid>
     </Grid>
 </Window>

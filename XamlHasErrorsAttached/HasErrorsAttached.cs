@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,11 +7,9 @@ namespace XamlHasErrorsAttached
 {
     public static class HasErrorsAttached
     {
+        #region ErrorsList
         public const string ErrorsList = nameof(ErrorsList);
 
-        public const string HasErrors = nameof(HasErrors);
-
-        #region ErrorsList
         public static IList<ValidationError> GetErrorsList(DependencyObject obj)
         {
             return (IList<ValidationError>)obj.GetValue(ErrorsListProperty);
@@ -22,10 +21,16 @@ namespace XamlHasErrorsAttached
         }
 
         public static readonly DependencyProperty ErrorsListProperty =
-            DependencyProperty.RegisterAttached(ErrorsList, typeof(IList<ValidationError>), typeof(HasErrorsAttached), new PropertyMetadata(new List<ValidationError>()));
+            DependencyProperty.RegisterAttached(
+                ErrorsList,
+                typeof(IList<ValidationError>),
+                typeof(HasErrorsAttached),
+                new PropertyMetadata(new ObservableCollection<ValidationError>()));
         #endregion
 
         #region HasErrors
+        public const string HasErrors = nameof(HasErrors);
+
         public static bool GetHasErrors(DependencyObject obj)
         {
             return (bool)obj.GetValue(HasErrorsProperty);
@@ -37,7 +42,11 @@ namespace XamlHasErrorsAttached
         }
 
         public static readonly DependencyProperty HasErrorsProperty =
-            DependencyProperty.RegisterAttached(HasErrors, typeof(bool), typeof(HasErrorsAttached), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached(
+                HasErrors,
+                typeof(bool),
+                typeof(HasErrorsAttached),
+                new PropertyMetadata(false));
         #endregion
     }
 }
